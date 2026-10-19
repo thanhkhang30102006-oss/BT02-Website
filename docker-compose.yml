@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  # 1. Container Web App (Kéo trực tiếp từ Docker Hub của bạn)
+  web:
+    image: khangdf/portfolio-app:v1
+    container_name: my-portfolio
+    ports:
+      - "8080:3000"
+    environment:
+      - PORT=3000
+      - PUSHBULLET_TOKEN=o.ynWaOmHzdTPICFerCZJNV0oVsY3MRL2s
+    restart: unless-stopped  # Tự động khởi động lại khi bật máy
+
+  # 2. Container Ngrok Tunnel (Kết nối tự động với domain tĩnh)
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: ngrok-tunnel
+    environment:
+      - NGROK_AUTHTOKEN=3Krc5XmjnMrCMGeOK4Mj6GYqfnp_4oiqfued7fBfdrbjNBTt9
+    command:
+      - "http"
+      - "--url=handmade-pantomime-bonsai.ngrok-free.dev"
+      - "web:3000"
+    restart: unless-stopped
+    depends_on:
+      - web

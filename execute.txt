@@ -1,1 +1,3 @@
 docker run -d -p 80:80 --name my-portfolio khangdf/portfolio-app:v1
+
+docker compose up -d
